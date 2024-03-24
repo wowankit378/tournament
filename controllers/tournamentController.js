@@ -22,21 +22,6 @@ const createTournament = async (request, response) => {
     }
 }
 
-// const deleteTournament = async (req, res) => {
-    
-//     try {
-//         const {_id:tournamentId} = req.params
-//         const tournament = await Tournament.findOneAndDelete({_id:tournamentId})
-//         if(!tournament){
-//             res.status(404).json({msg: "Tournament not found"})
-//         }
-//         res.status(200).json({tournament, msg: "Tournament Deleted"})
-//     } catch (error) {
-//         res.status(500).json({msg: error})
-//     }
-
-// }
-
 const deleteTournament = async (req, res) => {
     try {
         const tournamentId = req.params.id;
@@ -58,6 +43,8 @@ const deleteTournament = async (req, res) => {
 }
 
 
+
+
 const getTournament = async (req, res) => {
     try {
         // const {id:tournamentID} = req.params
@@ -73,38 +60,19 @@ const getTournament = async (req, res) => {
 }
 
 
-// const updateTournament = async (req, res) => {
-//     try {
-
-//         // const {_id:tournamentId} = 
-//         const tournament = await Tournament.findOneAndUpdate(req.params.id, req.body,
-            
-//             {
-//                 new: true,
-//                 runValidators: true
-//             })
-        
-//         if(!tournament){
-//             return res.status(404).json({msg: "Tournament not found"})
-//         }
-//         res.status(200).json({tournament, msg: "Tournament Updated"})
-//     } catch (error) {
-//         res.status(500).json({msg: error})
-//     }
-// }
 
 const updateTournament = async (req, res) => {
     try {
-        // Correctly extract the ID from the request parameters
+       
         const tournamentId = req.params.id;
 
         // Updating the tournament
         const tournament = await Tournament.findOneAndUpdate(
-            { _id: tournamentId }, // This should be an object specifying the filter criteria
-            req.body, // The updates
+            { _id: tournamentId }, 
+            req.body, 
             {
-                new: true, // Return the updated document
-                runValidators: true // Run schema validation for the update
+                new: true, 
+                runValidators: true 
             }
         );
 
