@@ -23,19 +23,27 @@ const createTournament = async (request, response) => {
 }
 
 const deleteTournament = async (req, res) => {
-    
     try {
-        const {_id:tournamentId} = req.params
-        const tournament = await Tournament.findOneAndDelete({_id:tournamentId})
-        if(!tournament){
-            res.status(404).json({msg: "Tournament not found"})
-        }
-        res.status(200).json({tournament, msg: "Tournament Deleted"})
-    } catch (error) {
-        res.status(500).json({msg: error})
-    }
+        const tournamentId = req.params.id;
+        console.log(`Attempting to delete tournament with ID: ${tournamentId}`);
 
+        const tournament = await Tournament.findOneAndDelete({_id: tournamentId});
+
+        if (!tournament) {
+            console.log("Tournament not found with ID:", tournamentId);
+            return res.status(404).json({msg: "Tournament not found"});
+        }
+
+        console.log(`Tournament deleted successfully: ${tournamentId}`);
+        return res.status(200).json({tournament, msg: "Tournament Deleted"});
+    } catch (error) {
+        console.error("Error deleting tournament:", error);
+        return res.status(500).json({msg: error.message});
+    }
 }
+
+
+
 
 const getTournament = async (req, res) => {
     try {
@@ -52,25 +60,32 @@ const getTournament = async (req, res) => {
 }
 
 
+
 const updateTournament = async (req, res) => {
     try {
+       
+        const tournamentId = req.params.id;
 
-        // const {_id:tournamentId} = 
-        const tournament = await Tournament.findOneAndUpdate(req.params.id, req.body,
-            
+        // Updating the tournament
+        const tournament = await Tournament.findOneAndUpdate(
+            { _id: tournamentId }, 
+            req.body, 
             {
-                new: true,
-                runValidators: true
-            })
-        
-        if(!tournament){
-            return res.status(404).json({msg: "Tournament not found"})
+                new: true, 
+                runValidators: true 
+            }
+        );
+
+        if (!tournament) {
+            return res.status(404).json({ msg: "Tournament not found" });
         }
-        res.status(200).json({tournament, msg: "Tournament Updated"})
+
+        res.status(200).json({ tournament, msg: "Tournament Updated" });
     } catch (error) {
-        res.status(500).json({msg: error})
+        res.status(500).json({ msg: error.message }); // Providing error message for easier debugging
     }
 }
+
 
 module.exports = {
     getAllTournaments,
