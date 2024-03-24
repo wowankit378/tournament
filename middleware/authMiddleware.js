@@ -1,9 +1,13 @@
+const { request } = require('express');
 const jwt = require('jsonwebtoken');
 function verifyToken(req, res, next) {
-const token = req.header('Authorization');
-if (!token) return res.status(401).json({ error: 'Access denied' });
+
+const token = req.header('authorization');
+console.log(token);
+    if (!token) return res.status(401).json({ error: 'Access denied' });
 try {
- const decoded = jwt.verify(token, 'your-secret-key');
+const jwtToken = token.split(" ")[1];
+ const decoded = jwt.verify(jwtToken, 'your-secret-key');
  req.userId = decoded.userId;
  next();
  } catch (error) {
