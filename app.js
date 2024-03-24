@@ -38,8 +38,7 @@ mongoose.connect(
 
 app.use('/users', authRoutes);
 app.use('/protected', protectedRoute);
-
-
+app.use('/tournaments', tournamentRouter);
 
 app.use(tournamentRouter);
 
